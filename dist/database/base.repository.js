@@ -1,18 +1,15 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseRepository = void 0;
-const common_1 = require("@nestjs/common");
-class BaseRepository {
-    constructor(db, loader, ...sqlFilePaths) {
-        this.db = db;
-        this.logger = new common_1.Logger(this.constructor.name);
-        this.queries = {};
-        for (const filePath of sqlFilePaths) {
-            Object.assign(this.queries, loader.load(filePath));
-        }
-        this.logger.log(`✅ Loaded ${Object.keys(this.queries).length} queries from ` +
-            `${sqlFilePaths.length} SQL file(s).`);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "BaseRepository", {
+    enumerable: true,
+    get: function() {
+        return BaseRepository;
     }
+});
+const _common = require("@nestjs/common");
+let BaseRepository = class BaseRepository {
     async q(name, params = []) {
         return await this.db.query(this.requireSql(name), params);
     }
@@ -26,6 +23,15 @@ class BaseRepository {
         }
         return sql;
     }
-}
-exports.BaseRepository = BaseRepository;
+    constructor(db, loader, ...sqlFilePaths){
+        this.db = db;
+        this.logger = new _common.Logger(this.constructor.name);
+        this.queries = {};
+        for (const filePath of sqlFilePaths){
+            Object.assign(this.queries, loader.load(filePath));
+        }
+        this.logger.log(`✅ Loaded ${Object.keys(this.queries).length} queries from ` + `${sqlFilePaths.length} SQL file(s).`);
+    }
+};
+
 //# sourceMappingURL=base.repository.js.map

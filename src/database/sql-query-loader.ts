@@ -2,25 +2,7 @@ import { readFileSync } from 'fs';
 
 export type QueryMap = Record<string, string>;
 
-/**
- * SqlQueryLoader
- * --------------
- * Single responsibility (SRP): reads `.sql` files and turns their
- * `-- name: <queryName>` blocks into a `queryName -> sql` map.
- *
- * It has no knowledge of `pg` or business logic — it only parses SQL
- * source files so the exact query text stays out of TypeScript code.
- */
 export class SqlQueryLoader {
-  /**
-   * Load a single `.sql` file into a map of queryName -> SQL statement.
-   *
-   * Each named block is introduced by a `-- name: <name>` marker line
-   * and continues until the next marker (blank lines and comment lines
-   * inside a block are ignored).
-   *
-   * @throws Error when two blocks in the same file share a name (fail fast).
-   */
   load(filePath: string): QueryMap {
     const raw = readFileSync(filePath, 'utf-8');
     const map: QueryMap = {};

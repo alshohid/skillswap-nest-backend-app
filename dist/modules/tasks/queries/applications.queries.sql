@@ -1,12 +1,4 @@
--- ============================================================
--- Tasks Module — Applications & Assignment Queries
--- ------------------------------------------------------------
--- Loaded by TasksRepository (which extends BaseRepository).
--- Every named block starts with a "-- name:" marker and is parsed
--- by SqlQueryLoader.
--- ============================================================
 
--- name: insertApplication
 INSERT INTO task_applications (task_id, applicant_id, cover_letter)
 VALUES ($1, $2, $3)
 RETURNING id, task_id, applicant_id, cover_letter, status, created_at;

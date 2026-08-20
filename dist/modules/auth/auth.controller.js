@@ -1,30 +1,46 @@
+// external imports
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthController = void 0;
-const common_1 = require("@nestjs/common");
-const swagger_1 = require("@nestjs/swagger");
-const auth_service_1 = require("./auth.service");
-const jwt_auth_guard_1 = require("../../common/guards/jwt-auth.guard");
-const public_guard_1 = require("../../common/guards/public.guard");
-const get_user_decorator_1 = require("../../common/decorators/get-user.decorator");
-const register_dto_1 = require("./dto/register.dto");
-const login_dto_1 = require("./dto/login.dto");
-let AuthController = class AuthController {
-    constructor(authService) {
-        this.authService = authService;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "AuthController", {
+    enumerable: true,
+    get: function() {
+        return AuthController;
     }
+});
+const _common = require("@nestjs/common");
+const _swagger = require("@nestjs/swagger");
+const _authservice = require("./auth.service");
+const _jwtauthguard = require("../../common/guards/jwt-auth.guard");
+const _publicguard = require("../../common/guards/public.guard");
+const _getuserdecorator = require("../../common/decorators/get-user.decorator");
+const _registerdto = require("./dto/register.dto");
+const _logindto = require("./dto/login.dto");
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") {
+        r = Reflect.decorate(decorators, target, key, desc);
+    } else {
+        for(var i = decorators.length - 1; i >= 0; i--){
+            if (d = decorators[i]) {
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+            }
+        }
+    }
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+function _ts_metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") {
+        return Reflect.metadata(metadataKey, metadataValue);
+    }
+}
+function _ts_param(paramIndex, decorator) {
+    return function(target, key) {
+        decorator(target, key, paramIndex);
+    };
+}
+let AuthController = class AuthController {
     async register(dto) {
         return await this.authService.register(dto);
     }
@@ -34,39 +50,57 @@ let AuthController = class AuthController {
     async me(user) {
         return await this.authService.me(user.id);
     }
+    constructor(authService){
+        this.authService = authService;
+    }
 };
-exports.AuthController = AuthController;
-__decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Register a new user (receives 100 SkillPoints)' }),
-    (0, public_guard_1.Public)(),
-    (0, common_1.Post)('register'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [register_dto_1.RegisterDto]),
-    __metadata("design:returntype", Promise)
+_ts_decorate([
+    (0, _swagger.ApiOperation)({
+        summary: 'Register a new user (receives 100 SkillPoints)'
+    }),
+    (0, _publicguard.Public)(),
+    (0, _common.Post)('register'),
+    _ts_param(0, (0, _common.Body)()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _registerdto.RegisterDto === "undefined" ? Object : _registerdto.RegisterDto
+    ]),
+    _ts_metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
-__decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Login with email and password' }),
-    (0, public_guard_1.Public)(),
-    (0, common_1.Post)('login'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [login_dto_1.LoginDto]),
-    __metadata("design:returntype", Promise)
+_ts_decorate([
+    (0, _swagger.ApiOperation)({
+        summary: 'Login with email and password'
+    }),
+    (0, _publicguard.Public)(),
+    (0, _common.Post)('login'),
+    _ts_param(0, (0, _common.Body)()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _logindto.LoginDto === "undefined" ? Object : _logindto.LoginDto
+    ]),
+    _ts_metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
-__decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Get the authenticated user profile' }),
-    (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Get)('me'),
-    __param(0, (0, get_user_decorator_1.GetUser)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
+_ts_decorate([
+    (0, _swagger.ApiOperation)({
+        summary: 'Get the authenticated user profile'
+    }),
+    (0, _swagger.ApiBearerAuth)(),
+    (0, _common.UseGuards)(_jwtauthguard.JwtAuthGuard),
+    (0, _common.Get)('me'),
+    _ts_param(0, (0, _getuserdecorator.GetUser)()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        Object
+    ]),
+    _ts_metadata("design:returntype", Promise)
 ], AuthController.prototype, "me", null);
-exports.AuthController = AuthController = __decorate([
-    (0, swagger_1.ApiTags)('auth'),
-    (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+AuthController = _ts_decorate([
+    (0, _swagger.ApiTags)('auth'),
+    (0, _common.Controller)('auth'),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _authservice.AuthService === "undefined" ? Object : _authservice.AuthService
+    ])
 ], AuthController);
+
 //# sourceMappingURL=auth.controller.js.map

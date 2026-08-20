@@ -46,6 +46,7 @@ export class TasksService {
     const offset = (page - 1) * limit;
 
     const countResult = await this.tasksRepo.countOpenTasks();
+    console.log('countResult', countResult.rows[0]);
     const total = parseInt(countResult.rows[0].total, 10);
 
     const result = await this.tasksRepo.findOpenTasks(limit, offset);
@@ -103,11 +104,7 @@ export class TasksService {
     }
   }
 
-  /**
-   * List all applications for a given task (creator only).
-   */
   async getApplications(taskId: number, userId: number) {
-    // Verify the requester is the task creator
     const taskCheck = await this.tasksRepo.findTaskCreator(taskId);
     if (!taskCheck.rows[0]) {
       throw new NotFoundException('Task not found');
@@ -117,20 +114,13 @@ export class TasksService {
         'Only the task creator can view applications',
       );
     }
-
     const result = await this.tasksRepo.findApplicationsByTask(taskId);
-
     return {
       success: true,
       data: result.rows,
     };
   }
 
-  /**
-   * Accept an application → assign the task to the applicant.
-   * Only the task creator can do this.
-   * State transition: OPEN → ASSIGNED
-   */
   async assignTask(taskId: number, appId: number, creatorId: number) {
     const taskResult = await this.tasksRepo.findTaskForAssign(taskId);
     const task = taskResult.rows[0];
@@ -175,24 +165,11 @@ export class TasksService {
     };
   }
 
-  /**
-   * Complete a task and transfer SkillPoints from creator to assignee.
-   *
-   * CORE ACID TRANSACTION:
-   * Uses SELECT ... FOR UPDATE to lock the task and user rows,
-   * preventing race conditions and double-spending.
-   * All operations are wrapped in BEGIN ... COMMIT / ROLLBACK.
-   *
-   * @param taskId   - The task to complete
-   * @param creatorId - Must match the task's creator_id (authorization)
-   */
   async completeTask(taskId: number, creatorId: number) {
     const client = await this.db.getClient();
 
     try {
       await client.query('BEGIN');
-
-      // ── 1. Lock the task row (prevents concurrent modification) ──
       const taskRes = await this.tasksRepo.lockTaskById(taskId, client);
       const task = taskRes.rows[0];
 
@@ -274,11 +251,6 @@ export class TasksService {
     }
   }
 
-  /**
-   * Cancel a task. Only the creator can cancel a task in OPEN or ASSIGNED state.
-   * No points are transferred.
-   * State transition: OPEN/ASSIGNED → CANCELLED
-   */
   async cancelTask(taskId: number, creatorId: number) {
     const result = await this.tasksRepo.cancelTask(taskId, creatorId);
 

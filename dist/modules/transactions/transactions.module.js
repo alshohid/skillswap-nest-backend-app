@@ -1,23 +1,43 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "TransactionsModule", {
+    enumerable: true,
+    get: function() {
+        return TransactionsModule;
+    }
+});
+const _common = require("@nestjs/common");
+const _transactionsservice = require("./transactions.service");
+const _transactionscontroller = require("./transactions.controller");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") {
+        r = Reflect.decorate(decorators, target, key, desc);
+    } else {
+        for(var i = decorators.length - 1; i >= 0; i--){
+            if (d = decorators[i]) {
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+            }
+        }
+    }
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TransactionsModule = void 0;
-const common_1 = require("@nestjs/common");
-const transactions_service_1 = require("./transactions.service");
-const transactions_controller_1 = require("./transactions.controller");
+}
 let TransactionsModule = class TransactionsModule {
 };
-exports.TransactionsModule = TransactionsModule;
-exports.TransactionsModule = TransactionsModule = __decorate([
-    (0, common_1.Module)({
-        controllers: [transactions_controller_1.TransactionsController],
-        providers: [transactions_service_1.TransactionsService],
-        exports: [transactions_service_1.TransactionsService],
+TransactionsModule = _ts_decorate([
+    (0, _common.Module)({
+        controllers: [
+            _transactionscontroller.TransactionsController
+        ],
+        providers: [
+            _transactionsservice.TransactionsService
+        ],
+        exports: [
+            _transactionsservice.TransactionsService
+        ]
     })
 ], TransactionsModule);
+
 //# sourceMappingURL=transactions.module.js.map
